@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:share_play_app/models/models.dart';
 import 'package:share_play_app/repositories/GroupRepository.dart';
+import 'package:share_play_app/screens/group/group_play_screen.dart';
 
 class GroupScreen extends StatefulWidget {
   GroupScreen({Key key}) : super(key: key);
@@ -86,22 +87,36 @@ class _GroupScreenState extends State<GroupScreen> {
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
                     duplicateItems = snapshot.data;
+                    if (items.isEmpty) {
+                      items.addAll(snapshot.data);
+                    }
                     return ListView.builder(
                       shrinkWrap: true,
                       itemCount: items.length,
                       itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Row(
-                            children: <Widget>[
-                              CircleAvatar(
-                                radius: 30.0,
-                                backgroundImage:
-                                    NetworkImage("${items[index].iconUrl}"),
-                                backgroundColor: Colors.transparent,
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                builder: (context) => new GroupPlayScreen(
+                                    groupName: '${items[index].groupName}'),
                               ),
-                              Text('${items[index].groupName}'),
-                            ],
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Row(
+                              children: <Widget>[
+                                CircleAvatar(
+                                  radius: 30.0,
+                                  backgroundImage:
+                                      NetworkImage("${items[index].iconUrl}"),
+                                  backgroundColor: Colors.transparent,
+                                ),
+                                Text('${items[index].groupName}'),
+                              ],
+                            ),
                           ),
                         );
                       },
