@@ -3,5 +3,7 @@ export 'main/main_screen.dart';
 export 'everyone/everyone_screen.dart';
 export 'group/group_screen.dart';
 export 'group/group_play_screen.dart';
+export 'group/new_group_screen.dart';
+export 'group/new_member_screen.dart';
 export 'myself/myself_screen.dart';
 export 'other/other_screen.dart';

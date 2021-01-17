@@ -17,9 +17,12 @@ class _GroupPlayScreenState extends State<GroupPlayScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // 左側のアイコン
-        leading: Icon(Icons.arrow_back),
-        // タイトルテキスト
+        // 左側の戻るアイコン
+        leading: IconButton(
+          icon: new Icon(Icons.arrow_back),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        // タイトル：グループ名
         title: Text('${widget.groupName}'),
       ),
       body: Container(

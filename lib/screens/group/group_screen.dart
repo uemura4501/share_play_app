@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:share_play_app/models/models.dart';
 import 'package:share_play_app/repositories/GroupRepository.dart';
-import 'package:share_play_app/screens/group/group_play_screen.dart';
+import 'package:share_play_app/screens/screens.dart';
 
 class GroupScreen extends StatefulWidget {
   GroupScreen({Key key}) : super(key: key);
@@ -135,6 +135,19 @@ class _GroupScreenState extends State<GroupScreen> {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xff03dac6),
+        foregroundColor: Colors.black,
+        onPressed: () {
+          Navigator.push(
+            context,
+            new MaterialPageRoute(
+              builder: (context) => new NewGroupScreen(),
+            ),
+          );
+        },
+        child: Icon(Icons.add),
       ),
     );
   }
