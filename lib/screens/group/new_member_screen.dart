@@ -11,6 +11,7 @@ class NewMemberScreen extends StatefulWidget {
 class _NewMemberScreenState extends State<NewMemberScreen> {
   var duplicateItems = List<Member>();
   var items = List<Member>();
+  List<bool> _isChecked;
 
   @override
   void initState() {
@@ -53,7 +54,18 @@ class _NewMemberScreenState extends State<NewMemberScreen> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         // タイトル：グループ名
-        title: Text('グループにメンバーを追加'),
+        title: Text(
+          'グループにメンバーを追加',
+          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+        ),
+        actions: <Widget>[
+          FlatButton(
+            textColor: Colors.white,
+            onPressed: () {},
+            child: Text("保存"),
+            shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
+          ),
+        ],
       ),
       body: Container(
         child: Column(
@@ -66,27 +78,26 @@ class _NewMemberScreenState extends State<NewMemberScreen> {
                     duplicateItems = snapshot.data;
                     if (items.isEmpty) {
                       items.addAll(snapshot.data);
+                      _isChecked = List<bool>.filled(items.length, false);
                     }
                     return ListView.builder(
                       shrinkWrap: true,
                       itemCount: items.length,
                       itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {},
-                          child: Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Row(
-                              children: <Widget>[
-                                CircleAvatar(
-                                  radius: 30.0,
-                                  backgroundImage:
-                                      NetworkImage("${items[index].iconUrl}"),
-                                  backgroundColor: Colors.transparent,
-                                ),
-                                Text(
-                                    '${items[index].lastName} ${items[index].firstName}'),
-                              ],
-                            ),
+                        return CheckboxListTile(
+                          title: Text(
+                              '${items[index].lastName} ${items[index].firstName}'),
+                          value: _isChecked[index],
+                          onChanged: (bool value) {
+                            setState(() {
+                              _isChecked[index] = value;
+                            });
+                          },
+                          secondary: CircleAvatar(
+                            radius: 30.0,
+                            backgroundImage:
+                                NetworkImage("${items[index].iconUrl}"),
+                            backgroundColor: Colors.transparent,
                           ),
                         );
                       },
