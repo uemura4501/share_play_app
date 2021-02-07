@@ -11,7 +11,7 @@ class NewMemberScreen extends StatefulWidget {
 class _NewMemberScreenState extends State<NewMemberScreen> {
   var duplicateItems = List<Member>();
   var items = List<Member>();
-  List<bool> _isChecked;
+  List<Member> _isChecked = [];
 
   @override
   void initState() {
@@ -70,6 +70,34 @@ class _NewMemberScreenState extends State<NewMemberScreen> {
       body: Container(
         child: Column(
           children: <Widget>[
+            Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.grey[300],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Material(
+                    color: Colors.grey[300],
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Icon(Icons.search, color: Colors.grey),
+                        Expanded(
+                          child: TextField(
+                            // textAlign: TextAlign.center,
+                            decoration: InputDecoration.collapsed(
+                              hintText: '氏名絞り込み検索',
+                            ),
+                            onChanged: (value) {
+                              filterSearchResults(value);
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )),
             Expanded(
               child: FutureBuilder<List<Member>>(
                 future: MemberRepository.getMembers('aaa'),
@@ -78,7 +106,6 @@ class _NewMemberScreenState extends State<NewMemberScreen> {
                     duplicateItems = snapshot.data;
                     if (items.isEmpty) {
                       items.addAll(snapshot.data);
-                      _isChecked = List<bool>.filled(items.length, false);
                     }
                     return ListView.builder(
                       shrinkWrap: true,
@@ -87,11 +114,19 @@ class _NewMemberScreenState extends State<NewMemberScreen> {
                         return CheckboxListTile(
                           title: Text(
                               '${items[index].lastName} ${items[index].firstName}'),
-                          value: _isChecked[index],
+                          value: _isChecked.contains(items[index]),
                           onChanged: (bool value) {
-                            setState(() {
-                              _isChecked[index] = value;
-                            });
+                            if (value) {
+                              //チェックon
+                              setState(() {
+                                _isChecked.add(items[index]);
+                              });
+                            } else {
+                              //チェックoff
+                              setState(() {
+                                _isChecked.remove(items[index]);
+                              });
+                            }
                           },
                           secondary: CircleAvatar(
                             radius: 30.0,
