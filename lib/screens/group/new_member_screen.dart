@@ -3,45 +3,29 @@ import 'package:share_play_app/models/models.dart';
 import 'package:share_play_app/repositories/MemberRepository.dart';
 
 class NewMemberScreen extends StatefulWidget {
-  NewMemberScreen({Key key}) : super(key: key);
+  final List<Member> checkedItems;
+  NewMemberScreen({Key key, @required this.checkedItems}) : super(key: key);
   @override
   _NewMemberScreenState createState() => new _NewMemberScreenState();
 }
 
 class _NewMemberScreenState extends State<NewMemberScreen> {
-  var duplicateItems = List<Member>();
-  var items = List<Member>();
-  List<Member> _isChecked = [];
+  Future<List<Member>> futureItems;
+  List<Member> items = [];
+  List<Member> checkedItems = [];
 
   @override
   void initState() {
     super.initState();
+    checkedItems = widget.checkedItems;
+    futureItems = MemberRepository.getDefaultMembers();
   }
 
   void filterSearchResults(String query) {
-    List<Member> dummySearchList = List<Member>();
-    dummySearchList.addAll(duplicateItems);
-    if (query.isNotEmpty) {
-      List<Member> dummyListData = List<Member>();
-      dummySearchList.forEach((item) {
-        if (item.lastNameKana.contains(query) ||
-            item.firstNameKana.contains(query) ||
-            item.firstName.contains(query) ||
-            item.lastName.contains(query)) {
-          dummyListData.add(item);
-        }
-      });
-      setState(() {
-        items.clear();
-        items.addAll(dummyListData);
-      });
-      return;
-    } else {
-      setState(() {
-        items.clear();
-        items.addAll(duplicateItems);
-      });
-    }
+    setState(() {
+      //APIから取得
+      futureItems = MemberRepository.getMembers(query);
+    });
   }
 
   @override
@@ -61,7 +45,9 @@ class _NewMemberScreenState extends State<NewMemberScreen> {
         actions: <Widget>[
           FlatButton(
             textColor: Colors.white,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context, checkedItems);
+            },
             child: Text("保存"),
             shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
           ),
@@ -87,7 +73,7 @@ class _NewMemberScreenState extends State<NewMemberScreen> {
                           child: TextField(
                             // textAlign: TextAlign.center,
                             decoration: InputDecoration.collapsed(
-                              hintText: '氏名絞り込み検索',
+                              hintText: '氏名検索',
                             ),
                             onChanged: (value) {
                               filterSearchResults(value);
@@ -100,13 +86,25 @@ class _NewMemberScreenState extends State<NewMemberScreen> {
                 )),
             Expanded(
               child: FutureBuilder<List<Member>>(
-                future: MemberRepository.getMembers('aaa'),
+                future: futureItems,
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
-                    duplicateItems = snapshot.data;
-                    if (items.isEmpty) {
-                      items.addAll(snapshot.data);
-                    }
+                    items.clear();
+                    List<Member> tmpList = snapshot.data;
+
+                    //検索APIで取得したリストの中に、チェック済みのmemberがあったらそれは除く
+                    tmpList = tmpList.where((item) {
+                      for (var checkedItem in checkedItems) {
+                        if (item.id == checkedItem.id) {
+                          return false;
+                        }
+                      }
+                      return true;
+                    }).toList();
+
+                    items.addAll(tmpList);
+                    items.addAll(checkedItems);
+
                     return ListView.builder(
                       shrinkWrap: true,
                       itemCount: items.length,
@@ -114,17 +112,17 @@ class _NewMemberScreenState extends State<NewMemberScreen> {
                         return CheckboxListTile(
                           title: Text(
                               '${items[index].lastName} ${items[index].firstName}'),
-                          value: _isChecked.contains(items[index]),
+                          value: checkedItems.contains(items[index]),
                           onChanged: (bool value) {
                             if (value) {
                               //チェックon
                               setState(() {
-                                _isChecked.add(items[index]);
+                                checkedItems.add(items[index]);
                               });
                             } else {
                               //チェックoff
                               setState(() {
-                                _isChecked.remove(items[index]);
+                                checkedItems.remove(items[index]);
                               });
                             }
                           },

@@ -4,6 +4,12 @@ import 'package:http/http.dart' as http;
 import 'package:share_play_app/models/models.dart';
 
 class MemberRepository {
+  static Future<List<Member>> getDefaultMembers() async {
+    List<Member> list = [];
+
+    return list;
+  }
+
   static Future<List<Member>> getMembers(String searchWord) async {
     List<Member> list = [];
 
@@ -47,8 +53,29 @@ class MemberRepository {
           'memberType': 0,
           'created_at': '2021-01-09 21:39:10',
           'updated_at': '2021-01-09 21:40:10',
+        }),
+        new Member.fromJson({
+          'id': 3,
+          'last_name': '畑山',
+          'first_name': '健太郎',
+          'last_name_kana': 'はたけやま',
+          'first_name_kana': 'けんたろう',
+          'icon_url':
+              'https://www.pakutaso.com/shared/img/thumb/017RED1124_TP_V.jpg',
+          'memberType': 0,
+          'created_at': '2021-01-09 21:39:10',
+          'updated_at': '2021-01-09 21:40:10',
         })
       ];
+
+      list = list.where((p) {
+        return (p.lastNameKana
+                .toLowerCase()
+                .contains(searchWord.toLowerCase()) ||
+            p.firstNameKana.toLowerCase().contains(searchWord.toLowerCase()) ||
+            p.firstName.toLowerCase().contains(searchWord.toLowerCase()) ||
+            p.lastName.toLowerCase().contains(searchWord.toLowerCase()));
+      }).toList();
     }
 
     return list;
