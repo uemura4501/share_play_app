@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:share_play_app/models/models.dart';
+import 'package:share_play_app/repositories/CreateNewGroupRepository.dart';
 import 'package:share_play_app/screens/group/new_member_screen.dart';
 
 class NewGroupScreen extends StatefulWidget {
@@ -24,6 +24,24 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
         ),
         // タイトル：グループ名
         title: Text('新しいグループ'),
+
+        actions: <Widget>[
+          FlatButton(
+            textColor: Colors.white,
+            onPressed: () {
+              //  新しいグループを作成する
+              CreateNewGroupRepository.createNewGroup(
+                      this.groupName, this._repositories)
+                  .then((result) {
+                if (result) {
+                  Navigator.of(context).pop();
+                } else {}
+              });
+            },
+            child: Text("作成"),
+            shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
+          ),
+        ],
       ),
       body: Container(
         child: Column(children: <Widget>[
