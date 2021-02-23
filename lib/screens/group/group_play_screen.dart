@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:share_play_app/models/models.dart';
-import 'package:share_play_app/screens/component/play_card.dart';
 import 'package:share_play_app/repositories/GroupPlayRepository.dart';
+import 'package:share_play_app/screens/component/play_card.dart';
+import 'package:share_play_app/screens/group/gourp_member_screen.dart';
 
 class GroupPlayScreen extends StatefulWidget {
-  final String groupName;
-  GroupPlayScreen({Key key, @required this.groupName}) : super(key: key);
+  Group group;
+  GroupPlayScreen({Key key, @required this.group}) : super(key: key);
   @override
   _GroupPlayScreenState createState() => new _GroupPlayScreenState();
 }
@@ -23,7 +24,24 @@ class _GroupPlayScreenState extends State<GroupPlayScreen> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         // タイトル：グループ名
-        title: Text('${widget.groupName}'),
+        title: Text('${widget.group.groupName}'),
+        actions: <Widget>[
+          FlatButton(
+            textColor: Colors.white,
+            onPressed: () => {
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                  builder: (context) => new GroupMemberScreen(
+                    group: widget.group,
+                  ),
+                ),
+              ),
+            },
+            child: Text("メンバー"),
+            shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
+          ),
+        ],
       ),
       body: Container(
         child: FutureBuilder<List<Play>>(

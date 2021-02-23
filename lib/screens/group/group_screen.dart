@@ -99,8 +99,8 @@ class _GroupScreenState extends State<GroupScreen> {
                             Navigator.push(
                               context,
                               new MaterialPageRoute(
-                                builder: (context) => new GroupPlayScreen(
-                                    groupName: '${items[index].groupName}'),
+                                builder: (context) =>
+                                    new GroupPlayScreen(group: items[index]),
                               ),
                             );
                           },

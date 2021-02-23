@@ -90,7 +90,6 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
         builder: (context) => new NewMemberScreen(checkedItems: _repositories),
       ),
     );
-    print(checkedItems);
     if (checkedItems != null) {
       setState(() {
         _repositories = checkedItems;
