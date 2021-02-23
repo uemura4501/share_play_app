@@ -28,16 +28,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
         actions: <Widget>[
           FlatButton(
             textColor: Colors.white,
-            onPressed: () {
-              //  新しいグループを作成する
-              CreateNewGroupRepository.createNewGroup(
-                      this.groupName, this._repositories)
-                  .then((result) {
-                if (result) {
-                  Navigator.of(context).pop();
-                } else {}
-              });
-            },
+            onPressed: () => createNewGroupAlert(context),
             child: Text("作成"),
             shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
           ),
@@ -97,5 +88,57 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
         _repositories = checkedItems;
       });
     }
+  }
+
+  createNewGroupAlert(BuildContext context) {
+    if (this.groupName.isEmpty) {
+      return showDialog(
+        context: context,
+        child: AlertDialog(
+          title: Text('確認'),
+          content: Text('グループ名が入力されていません。'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Cancel'),
+              onPressed: () => Navigator.of(context).pop(0),
+            ),
+          ],
+        ),
+      );
+    }
+    if (this._repositories.isEmpty) {
+      return showDialog(
+        context: context,
+        child: AlertDialog(
+          title: Text('確認'),
+          content: Text('メンバーが指定されていないため、あなた1人のみ所属のグループを作成しますが、よろしいですか？'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Cancel'),
+              onPressed: () => Navigator.of(context).pop(0),
+            ),
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop(1);
+                createNewGroup(context);
+              },
+            ),
+          ],
+        ),
+      );
+    } else {
+      createNewGroup(context);
+    }
+  }
+
+  createNewGroup(BuildContext context) {
+    //  新しいグループを作成する
+    CreateNewGroupRepository.createNewGroup(this.groupName, this._repositories)
+        .then((result) {
+      if (result) {
+        Navigator.of(context).pop();
+      } else {}
+    });
   }
 }
