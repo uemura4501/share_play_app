@@ -17,8 +17,8 @@ class Member {
   ///メンバーiconのURL
   final String iconUrl;
 
-  ///メンバー種類 0:未設定 1:普通 2：管理者
-  final int memberType;
+  ///メンバー種類 0:普通 1：管理者
+  int memberType;
 
   ///投稿日時
   final DateTime createdAt;
@@ -36,4 +36,15 @@ class Member {
         iconUrl = json['icon_url'],
         createdAt = DateTime.parse(json['created_at'].toString()),
         updatedAt = DateTime.parse(json['updated_at'].toString());
+
+  getMemberTypeString() {
+    switch (memberType) {
+      case 0:
+        return 'メンバー';
+      case 1:
+        return '管理者';
+      default:
+        return '';
+    }
+  }
 }

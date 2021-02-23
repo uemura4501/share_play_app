@@ -50,8 +50,16 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
             itemCount: _repositories.length,
             itemBuilder: (context, index) {
               return CheckboxListTile(
-                title: Text(
-                    '${_repositories[index].lastName} ${_repositories[index].firstName}'),
+                title: Row(
+                  children: <Widget>[
+                    Text(
+                        '${_repositories[index].lastName} ${_repositories[index].firstName}'),
+                    _memberTypeMenuButton(_repositories[index]),
+                    Text(
+                      _repositories[index].getMemberTypeString(),
+                    ),
+                  ],
+                ),
                 value: _repositories.contains(_repositories[index]),
                 secondary: CircleAvatar(
                   radius: 30.0,
@@ -88,6 +96,27 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
         _repositories = checkedItems;
       });
     }
+  }
+
+  Widget _memberTypeMenuButton(Member member) {
+    return PopupMenuButton(
+      icon: Icon(Icons.settings),
+      onSelected: (newValue) {
+        setState(() {
+          member.memberType = newValue;
+        });
+      },
+      itemBuilder: (context) => [
+        PopupMenuItem(
+          child: Text("メンバーにする"),
+          value: 0,
+        ),
+        PopupMenuItem(
+          child: Text("管理者にする"),
+          value: 1,
+        ),
+      ],
+    );
   }
 
   createNewGroupAlert(BuildContext context) {
