@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:share_play_app/models/models.dart';
 import 'package:share_play_app/repositories/GroupMemberRepository.dart';
+import 'package:share_play_app/repositories/SaveGroupMemberRepository.dart';
 import 'package:share_play_app/screens/group/new_member_screen.dart';
 
 class GroupMemberScreen extends StatefulWidget {
@@ -145,5 +146,27 @@ class _NewGroupScreenState extends State<GroupMemberScreen> {
     );
   }
 
-  saveGroup(BuildContext context) {}
+  saveGroup(BuildContext context) {
+    SaveGroupMemberRepository.saveGroupMember(widget.group, _repositories)
+        .then((result) {
+      if (result) {
+        //保存成功
+        Navigator.of(context).pop();
+      } else {
+        return showDialog(
+          context: context,
+          child: AlertDialog(
+            title: Text('エラー'),
+            content: Text('正常に保存できませんでした。'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Cancel'),
+                onPressed: () => Navigator.of(context).pop(0),
+              ),
+            ],
+          ),
+        );
+      }
+    });
+  }
 }
