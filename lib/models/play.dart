@@ -3,13 +3,19 @@ class Play {
   final int id;
 
   ///祈りのタイトル
-  final String title;
+  String title;
 
   ///祈りの要請内容
-  final String text;
+  String text;
+
+  ///祈りの要請者ID
+  final int requesterId;
 
   ///祈りの要請者名
   final String requesterName;
+
+  ///祈りの所属グループID
+  final int groupId;
 
   ///祈りの所属グループ名
   final String groupName;
@@ -24,8 +30,14 @@ class Play {
       : id = json['id'],
         title = json['title'],
         text = json['text'],
+        requesterId = json['requester_id'],
         requesterName = json['requester_name'],
+        groupId = json['group_id'],
         groupName = json['group_name'],
-        createdAt = DateTime.parse(json['created_at'].toString()),
-        updatedAt = DateTime.parse(json['updated_at'].toString());
+        createdAt = json['created_at'] != null
+            ? DateTime.parse(json['created_at'].toString())
+            : null,
+        updatedAt = json['updated_at'] != null
+            ? DateTime.parse(json['updated_at'].toString())
+            : null;
 }

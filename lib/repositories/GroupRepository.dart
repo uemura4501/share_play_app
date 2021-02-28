@@ -26,7 +26,7 @@ class GroupRepository {
       list = [
         new Group.fromJson({
           'id': 1,
-          'group_name': 'kachokai',
+          'group_name': '課長会',
           'icon_url':
               'https://www.pakutaso.com/shared/img/thumb/PPG_ameninuretamomiji_TP_V.jpg',
           'created_at': '2021-01-09 21:39:10',
@@ -34,7 +34,7 @@ class GroupRepository {
         }),
         new Group.fromJson({
           'id': 2,
-          'group_name': 'seinenkai',
+          'group_name': '青年会',
           'icon_url':
               'https://www.pakutaso.com/shared/img/thumb/017RED1124_TP_V.jpg',
           'created_at': '2021-01-09 21:39:10',

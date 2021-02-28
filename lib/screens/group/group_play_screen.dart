@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:share_play_app/models/models.dart';
 import 'package:share_play_app/repositories/GroupPlayRepository.dart';
+import 'package:share_play_app/screens/Play/new_play_screen.dart';
 import 'package:share_play_app/screens/component/play_card.dart';
-import 'package:share_play_app/screens/group/gourp_member_screen.dart';
+import 'package:share_play_app/screens/group/group_member_screen.dart';
 
 class GroupPlayScreen extends StatefulWidget {
   Group group;
@@ -61,6 +62,23 @@ class _GroupPlayScreenState extends State<GroupPlayScreen> {
             }
           },
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xff03dac6),
+        foregroundColor: Colors.black,
+        onPressed: () {
+          _navigateAndDisplayNewPlayScreen(context);
+        },
+        child: Icon(Icons.create),
+      ),
+    );
+  }
+
+  _navigateAndDisplayNewPlayScreen(BuildContext context) async {
+    final checkedItems = await Navigator.push(
+      context,
+      new MaterialPageRoute(
+        builder: (context) => new NewPlayScreen(group: widget.group),
       ),
     );
   }
