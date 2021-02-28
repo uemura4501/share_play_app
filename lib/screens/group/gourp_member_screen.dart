@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:share_play_app/models/models.dart';
 import 'package:share_play_app/repositories/GroupMemberRepository.dart';
@@ -12,6 +14,16 @@ class GroupMemberScreen extends StatefulWidget {
 
 class _NewGroupScreenState extends State<GroupMemberScreen> {
   List<Member> _repositories = new List<Member>();
+  StreamController<List<Member>> _memberListStream;
+
+  @override
+  void initState() {
+    super.initState();
+    _memberListStream = StreamController<List<Member>>();
+    GroupMemberRepository.getMembers(widget.group.id).then((groupMembers) {
+      _memberListStream.add(groupMembers);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +48,8 @@ class _NewGroupScreenState extends State<GroupMemberScreen> {
       ),
       body: Container(
         child: Column(children: <Widget>[
-          FutureBuilder<List<Member>>(
-            future: GroupMemberRepository.getMembers(widget.group.id),
+          StreamBuilder(
+            stream: _memberListStream.stream,
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 _repositories = snapshot.data;
@@ -86,12 +98,20 @@ class _NewGroupScreenState extends State<GroupMemberScreen> {
     final checkedItems = await Navigator.push(
       context,
       new MaterialPageRoute(
-        builder: (context) => new NewMemberScreen(checkedItems: _repositories),
+        builder: (context) =>
+            new NewMemberScreen(checkedItems: new List<Member>()),
       ),
     );
     if (checkedItems != null) {
       setState(() {
-        _repositories = checkedItems;
+        for (var checkedItem in checkedItems) {
+          var exist = _repositories.firstWhere(
+              (element) => element.id == checkedItem.id,
+              orElse: () => null);
+          if (exist == null) {
+            _repositories.add(checkedItem);
+          }
+        }
       });
     }
   }

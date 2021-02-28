@@ -38,7 +38,7 @@ class MemberRepository {
           'first_name_kana': 'いちろう',
           'icon_url':
               'https://www.pakutaso.com/shared/img/thumb/PPG_ameninuretamomiji_TP_V.jpg',
-          'memberType': 0,
+          'member_type': 0,
           'created_at': '2021-01-09 21:39:10',
           'updated_at': '2021-01-09 21:40:10',
         }),
@@ -50,7 +50,7 @@ class MemberRepository {
           'first_name_kana': 'けんたろう',
           'icon_url':
               'https://www.pakutaso.com/shared/img/thumb/017RED1124_TP_V.jpg',
-          'memberType': 0,
+          'member_type': 0,
           'created_at': '2021-01-09 21:39:10',
           'updated_at': '2021-01-09 21:40:10',
         }),
@@ -62,7 +62,7 @@ class MemberRepository {
           'first_name_kana': 'けんたろう',
           'icon_url':
               'https://www.pakutaso.com/shared/img/thumb/017RED1124_TP_V.jpg',
-          'memberType': 0,
+          'member_type': 0,
           'created_at': '2021-01-09 21:39:10',
           'updated_at': '2021-01-09 21:40:10',
         })

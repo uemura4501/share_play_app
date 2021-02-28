@@ -31,38 +31,26 @@ class GroupMemberRepository {
     } else {
       list = [
         new Member.fromJson({
-          'id': 1,
-          'last_name': '高田',
-          'first_name': '一郎',
-          'last_name_kana': 'たかだ',
-          'first_name_kana': 'いちろう',
+          'id': 4,
+          'last_name': '佐藤',
+          'first_name': '健太郎',
+          'last_name_kana': 'さとう',
+          'first_name_kana': 'けんたろう',
           'icon_url':
-              'https://www.pakutaso.com/shared/img/thumb/PPG_ameninuretamomiji_TP_V.jpg',
-          'memberType': 0,
+              'https://www.pakutaso.com/shared/img/thumb/017RED1124_TP_V.jpg',
+          'member_type': 0,
           'created_at': '2021-01-09 21:39:10',
           'updated_at': '2021-01-09 21:40:10',
         }),
         new Member.fromJson({
-          'id': 2,
-          'last_name': '鈴木',
+          'id': 5,
+          'last_name': '中田',
           'first_name': '健太郎',
-          'last_name_kana': 'すずき',
+          'last_name_kana': 'なかた',
           'first_name_kana': 'けんたろう',
           'icon_url':
               'https://www.pakutaso.com/shared/img/thumb/017RED1124_TP_V.jpg',
-          'memberType': 0,
-          'created_at': '2021-01-09 21:39:10',
-          'updated_at': '2021-01-09 21:40:10',
-        }),
-        new Member.fromJson({
-          'id': 3,
-          'last_name': '畑山',
-          'first_name': '健太郎',
-          'last_name_kana': 'はたけやま',
-          'first_name_kana': 'けんたろう',
-          'icon_url':
-              'https://www.pakutaso.com/shared/img/thumb/017RED1124_TP_V.jpg',
-          'memberType': 0,
+          'member_type': 1,
           'created_at': '2021-01-09 21:39:10',
           'updated_at': '2021-01-09 21:40:10',
         })
