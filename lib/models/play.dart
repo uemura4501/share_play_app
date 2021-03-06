@@ -20,6 +20,9 @@ class Play {
   ///祈りの所属グループ名
   final String groupName;
 
+  ///フォロー数
+  final int followNum;
+
   ///投稿日時
   final DateTime createdAt;
 
@@ -34,6 +37,7 @@ class Play {
         requesterName = json['requester_name'],
         groupId = json['group_id'],
         groupName = json['group_name'],
+        followNum = json['follow_num'],
         createdAt = json['created_at'] != null
             ? DateTime.parse(json['created_at'].toString())
             : null,

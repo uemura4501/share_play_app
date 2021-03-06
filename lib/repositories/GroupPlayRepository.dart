@@ -32,6 +32,7 @@ class GroupPlayRepository {
           'requester_id': 1,
           'group_id': 2,
           'group_name': '青年会',
+          'follow_num': 12,
           'created_at': '2021-01-09 21:39:10',
           'updated_at': '2021-01-09 21:40:10',
         }),
@@ -43,6 +44,7 @@ class GroupPlayRepository {
           'requester_name': '田中 栄三郎',
           'group_id': 2,
           'group_name': '青年会',
+          'follow_num': 25,
           'created_at': '2021-01-09 21:39:10',
           'updated_at': '2021-01-09 21:40:10',
         })

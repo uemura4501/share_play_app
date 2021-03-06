@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:share_play_app/models/play.dart';
+import 'package:share_play_app/screens/Play/play_detail_screen.dart';
 
 class PlayCard extends StatefulWidget {
   final List<Play> _repositories;
@@ -38,7 +39,7 @@ class _PlayCardState extends State<PlayCard> {
                     new Flexible(
                       child: Text(play.title),
                     ),
-                    _playMenuButton(),
+                    _playMenuButton(context, play),
                   ],
                 ),
                 subtitle: Row(
@@ -72,30 +73,43 @@ class _PlayCardState extends State<PlayCard> {
     );
   }
 
-  Widget _playMenuButton() {
+  Widget _playMenuButton(BuildContext context, Play play) {
     return PopupMenuButton(
       icon: Icon(Icons.settings),
       onSelected: (newValue) {
-        // add this property
+        switch (newValue) {
+          case 1:
+            _navigateAndDisplayPlayDetailScreen(context, play);
+            break;
+        }
       },
       itemBuilder: (context) => [
         PopupMenuItem(
-          child: Text("編集"),
-          value: 0,
-        ),
-        PopupMenuItem(
-          child: Text("削除"),
+          child: Text("内容確認"),
           value: 1,
         ),
         PopupMenuItem(
-          child: Text("内容確認"),
-          value: 0,
+          child: Text("編集"),
+          value: 2,
+        ),
+        PopupMenuItem(
+          child: Text("削除"),
+          value: 3,
         ),
         PopupMenuItem(
           child: Text("フォロー解除"),
-          value: 2,
+          value: 4,
         ),
       ],
+    );
+  }
+
+  _navigateAndDisplayPlayDetailScreen(BuildContext context, Play play) async {
+    final checkedItems = await Navigator.push(
+      context,
+      new MaterialPageRoute(
+        builder: (context) => new PlayDetailScreen(play: play),
+      ),
     );
   }
 }
