@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:share_play_app/models/models.dart';
+import 'package:share_play_app/models/progressReport.dart';
 
 class PlayDetailScreen extends StatefulWidget {
   Play play;
@@ -42,6 +43,7 @@ class _PlayDetailScreenState extends State<PlayDetailScreen> {
                       ' 更新'),
             ],
           ),
+          _progressRepotsRow(widget.play.progressReports),
           Divider(
             color: Colors.black,
           ),
@@ -63,5 +65,29 @@ class _PlayDetailScreenState extends State<PlayDetailScreen> {
         ]),
       ),
     );
+  }
+
+  _progressRepotsRow(List<ProgressReport> prs) {
+    List<Widget> list = new List<Widget>();
+    for (ProgressReport pr in prs) {
+      list.add(_progressReportBlock(pr));
+    }
+    return new Row(
+      children: list,
+    );
+  }
+
+  _progressReportBlock(ProgressReport pr) {
+    return Column(children: <Widget>[
+      Text('${pr.text}'),
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          Text(DateFormat('yyyy/MM/dd HH:mm').format(pr.createdAt) + ' 投稿'),
+          Text(DateFormat('yyyy/MM/dd HH:mm').format(pr.updatedAt) + ' 更新'),
+        ],
+      ),
+    ]);
   }
 }

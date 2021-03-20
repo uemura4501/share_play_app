@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:share_play_app/models/play.dart';
-import 'package:share_play_app/screens/Play/play_detail_screen.dart';
+import 'package:share_play_app/screens/play/play_detail_screen.dart';
 
 class PlayCard extends StatefulWidget {
   final List<Play> _repositories;

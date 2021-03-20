@@ -1,3 +1,6 @@
+import 'package:share_play_app/models/progressReport.dart';
+import 'package:share_play_app/models/reply.dart';
+
 class Play {
   ///祈りID
   final int id;
@@ -23,6 +26,12 @@ class Play {
   ///フォロー数
   final int followNum;
 
+  ///経過報告
+  final List<ProgressReport> progressReports;
+
+  ///返信
+  final List<Reply> replies;
+
   ///投稿日時
   final DateTime createdAt;
 
@@ -38,6 +47,16 @@ class Play {
         groupId = json['group_id'],
         groupName = json['group_name'],
         followNum = json['follow_num'],
+        progressReports = json['progress_reports'] != null
+            ? (json['progress_reports'] as List).map((i) {
+                return new ProgressReport.fromJson(i);
+              }).toList()
+            : new List<ProgressReport>(),
+        replies = json['replies'] != null
+            ? (json['replies'] as List).map((i) {
+                return new Reply.fromJson(i);
+              }).toList()
+            : new List<Reply>(),
         createdAt = json['created_at'] != null
             ? DateTime.parse(json['created_at'].toString())
             : null,
