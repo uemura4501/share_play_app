@@ -27,112 +27,150 @@ class _PlayCardState extends State<PlayCard> {
 
   Widget _buildCard(Play play) {
     return Card(
-      child: Column(
-        children: <Widget>[
-          Container(
-              margin: const EdgeInsets.fromLTRB(3.0, 5.0, 3.0, 0.0),
-              child: ListTile(
-                title: Row(
+      child: ListTileTheme(
+        contentPadding: EdgeInsets.all(0),
+        child: ExpansionTile(
+          title: Column(
+            children: <Widget>[
+              Container(
+                margin: const EdgeInsets.fromLTRB(3.0, 5.0, 3.0, 0.0),
+                child: ListTile(
+                  title: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      new Flexible(
+                        child: Text(play.title),
+                      ),
+                      _playMenuButton(context, play),
+                    ],
+                  ),
+                  subtitle: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Text(play.requesterName),
+                      Padding(padding: EdgeInsets.only(left: 10)),
+                      Text(play.groupName),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.fromLTRB(20.0, 0.0, 15.0, 10.0),
+                child: Text(play.text),
+              ),
+              Container(
+                margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+                child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    new Flexible(
-                      child: Text(play.title),
-                    ),
-                    _playMenuButton(context, play),
+                    Text(DateFormat('yyyy/MM/dd HH:mm').format(play.createdAt) +
+                        ' 投稿'),
+                    Text(DateFormat('yyyy/MM/dd HH:mm').format(play.updatedAt) +
+                        ' 更新'),
                   ],
                 ),
-                subtitle: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    Text(play.requesterName),
-                    Padding(padding: EdgeInsets.only(left: 10)),
-                    Text(play.groupName),
-                  ],
-                ),
-              )),
-          Container(
-            margin: const EdgeInsets.fromLTRB(20.0, 0.0, 15.0, 10.0),
-            child: Text(play.text),
+              ),
+            ],
           ),
-          Container(
-            margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Column(
               children: <Widget>[
-                Text(DateFormat('yyyy/MM/dd HH:mm').format(play.createdAt) +
-                    ' 投稿'),
-                Text(DateFormat('yyyy/MM/dd HH:mm').format(play.updatedAt) +
-                    ' 更新'),
+                Container(
+                  // 配列を元にリスト表示
+                  child: ListView.builder(
+                    shrinkWrap: true, //just set this property
+                    padding: const EdgeInsets.all(0),
+                    itemCount: play.progressReports.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              margin: const EdgeInsets.fromLTRB(
+                                  20.0, 0.0, 15.0, 10.0),
+                              child: Text(play.progressReports[index].text),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.fromLTRB(
+                                  16.0, 0.0, 16.0, 16.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: <Widget>[
+                                  Text(DateFormat('yyyy/MM/dd HH:mm').format(
+                                          play.progressReports[index]
+                                              .createdAt) +
+                                      ' 投稿'),
+                                  Text(DateFormat('yyyy/MM/dd HH:mm').format(
+                                          play.progressReports[index]
+                                              .updatedAt) +
+                                      ' 更新'),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                Container(
+                  // 配列を元にリスト表示
+                  child: ListView.builder(
+                    shrinkWrap: true, //just set this property
+                    padding: const EdgeInsets.all(0),
+                    itemCount: play.replies.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              margin: const EdgeInsets.fromLTRB(
+                                  20.0, 0.0, 15.0, 10.0),
+                              child: Text(play.replies[index].replyUserName),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.fromLTRB(
+                                  20.0, 0.0, 15.0, 10.0),
+                              child: Text(
+                                play.replies[index].text,
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.fromLTRB(
+                                  16.0, 0.0, 16.0, 16.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: <Widget>[
+                                  Text(DateFormat('yyyy/MM/dd HH:mm').format(
+                                          play.progressReports[index]
+                                              .createdAt) +
+                                      ' 投稿'),
+                                  Text(DateFormat('yyyy/MM/dd HH:mm').format(
+                                          play.progressReports[index]
+                                              .updatedAt) +
+                                      ' 更新'),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ],
             ),
-          ),
-          Container(
-            // 配列を元にリスト表示
-            child: ListView.builder(
-              shrinkWrap: true, //just set this property
-              padding: const EdgeInsets.all(8.0),
-              itemCount: play.progressReports.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        play.progressReports[index].text,
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Text(DateFormat('yyyy/MM/dd HH:mm').format(
-                                  play.progressReports[index].createdAt) +
-                              ' 投稿'),
-                          Text(DateFormat('yyyy/MM/dd HH:mm').format(
-                                  play.progressReports[index].updatedAt) +
-                              ' 更新'),
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
-          Container(
-            // 配列を元にリスト表示
-            child: ListView.builder(
-              shrinkWrap: true, //just set this property
-              padding: const EdgeInsets.all(8.0),
-              itemCount: play.replies.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  child: Column(
-                    children: <Widget>[
-                      Text(play.replies[index].replyUserName),
-                      Text(
-                        play.replies[index].text,
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Text(DateFormat('yyyy/MM/dd HH:mm').format(
-                                  play.progressReports[index].createdAt) +
-                              ' 投稿'),
-                          Text(DateFormat('yyyy/MM/dd HH:mm').format(
-                                  play.progressReports[index].updatedAt) +
-                              ' 更新'),
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
