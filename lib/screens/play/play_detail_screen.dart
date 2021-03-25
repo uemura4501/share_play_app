@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:share_play_app/models/models.dart';
 import 'package:share_play_app/models/progressReport.dart';
+import 'package:share_play_app/models/reply.dart';
 
 class PlayDetailScreen extends StatefulWidget {
   Play play;
@@ -43,7 +44,6 @@ class _PlayDetailScreenState extends State<PlayDetailScreen> {
                       ' 更新'),
             ],
           ),
-          _progressRepotsRow(widget.play.progressReports),
           Divider(
             color: Colors.black,
           ),
@@ -62,32 +62,98 @@ class _PlayDetailScreenState extends State<PlayDetailScreen> {
               Text('${widget.play.followNum}人'),
             ],
           ),
+          Divider(
+            color: Colors.black,
+          ),
+          Row(
+            children: [
+              Text('経過報告'),
+            ],
+          ),
+          _progressRepotsRow(widget.play.progressReports),
+          Divider(
+            color: Colors.black,
+          ),
+          Row(
+            children: [
+              Text('返信'),
+            ],
+          ),
+          _repliesRow(widget.play.replies),
         ]),
       ),
     );
   }
 
   _progressRepotsRow(List<ProgressReport> prs) {
-    List<Widget> list = new List<Widget>();
-    for (ProgressReport pr in prs) {
-      list.add(_progressReportBlock(pr));
-    }
-    return new Row(
-      children: list,
+    return ListView.builder(
+      shrinkWrap: true, //just set this property
+      padding: const EdgeInsets.all(0),
+      itemCount: prs.length,
+      itemBuilder: (context, index) {
+        return Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                margin: const EdgeInsets.fromLTRB(20.0, 0.0, 15.0, 10.0),
+                child: Text(prs[index].text),
+              ),
+              Container(
+                margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Text(DateFormat('yyyy/MM/dd HH:mm')
+                            .format(prs[index].createdAt) +
+                        ' 投稿'),
+                    Text(DateFormat('yyyy/MM/dd HH:mm')
+                            .format(prs[index].updatedAt) +
+                        ' 更新'),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
-  _progressReportBlock(ProgressReport pr) {
-    return Column(children: <Widget>[
-      Text('${pr.text}'),
-      Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          Text(DateFormat('yyyy/MM/dd HH:mm').format(pr.createdAt) + ' 投稿'),
-          Text(DateFormat('yyyy/MM/dd HH:mm').format(pr.updatedAt) + ' 更新'),
-        ],
-      ),
-    ]);
+  _repliesRow(List<Reply> replies) {
+    return ListView.builder(
+      shrinkWrap: true, //just set this property
+      padding: const EdgeInsets.all(0),
+      itemCount: replies.length,
+      itemBuilder: (context, index) {
+        return Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                margin: const EdgeInsets.fromLTRB(20.0, 0.0, 15.0, 10.0),
+                child: Text(replies[index].text),
+              ),
+              Container(
+                margin: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Text(DateFormat('yyyy/MM/dd HH:mm')
+                            .format(replies[index].createdAt) +
+                        ' 投稿'),
+                    Text(DateFormat('yyyy/MM/dd HH:mm')
+                            .format(replies[index].updatedAt) +
+                        ' 更新'),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
