@@ -73,53 +73,58 @@ class _PlayCardState extends State<PlayCard> {
                   ],
                 ),
               ),
+              Container(
+                // 配列を元にリスト表示
+                child: ListView.builder(
+                  shrinkWrap: true, //just set this property
+                  padding: const EdgeInsets.all(0),
+                  itemCount: play.progressReports.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(
+                                20.0, 0.0, 15.0, 10.0),
+                            child: Text(play.progressReports[index].text),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.fromLTRB(
+                                16.0, 0.0, 16.0, 16.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: <Widget>[
+                                Text(DateFormat('yyyy/MM/dd HH:mm').format(
+                                        play.progressReports[index].createdAt) +
+                                    ' 投稿'),
+                                Text(DateFormat('yyyy/MM/dd HH:mm').format(
+                                        play.progressReports[index].updatedAt) +
+                                    ' 更新'),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
             ],
           ),
           children: [
             Column(
               children: <Widget>[
                 Container(
-                  // 配列を元にリスト表示
-                  child: ListView.builder(
-                    shrinkWrap: true, //just set this property
-                    padding: const EdgeInsets.all(0),
-                    itemCount: play.progressReports.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              margin: const EdgeInsets.fromLTRB(
-                                  20.0, 0.0, 15.0, 10.0),
-                              child: Text(play.progressReports[index].text),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.fromLTRB(
-                                  16.0, 0.0, 16.0, 16.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: <Widget>[
-                                  Text(DateFormat('yyyy/MM/dd HH:mm').format(
-                                          play.progressReports[index]
-                                              .createdAt) +
-                                      ' 投稿'),
-                                  Text(DateFormat('yyyy/MM/dd HH:mm').format(
-                                          play.progressReports[index]
-                                              .updatedAt) +
-                                      ' 更新'),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
+                  decoration: BoxDecoration(
+                    border: const Border(
+                      top: const BorderSide(
+                        color: Colors.grey,
+                        width: 1,
+                      ),
+                    ),
                   ),
-                ),
-                Container(
                   // 配列を元にリスト表示
                   child: ListView.builder(
                     shrinkWrap: true, //just set this property
